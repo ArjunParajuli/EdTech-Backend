@@ -3,12 +3,11 @@ import 'dotenv/config';
 import mongoose from 'mongoose';
 import adminRouter from './routes/adminRoutes.js';
 import userRouter from './routes/userRoutes.js';
-import adminMiddleware from './middlewares/adminMiddleware.js';
 
 const app = express()
 
 app.use(express.json());
-app.use("/admin", adminMiddleware, adminRouter);
+app.use("/admin", adminRouter);
 app.use("/user", userRouter);
 
 app.use((err, req, res, next)=>{
