@@ -1,12 +1,11 @@
-import mongoose from "mongoose";
 import Admin from "../models/admin.js";
 import Course from "../models/course.js";
 
 
 const adminSignUp = async(req, res) =>{
-    const {username, password} = req.body;
+    const {username} = req.body;
     try{
-        const foundAdmin = await Admin.findOne({username, password});
+        const foundAdmin = await Admin.findOne({username});
         if(foundAdmin){
             res.status(200).json(foundAdmin)
         }else{
@@ -19,7 +18,12 @@ const adminSignUp = async(req, res) =>{
 }
 
 const adminGetAllCourses = async(req, res) =>{
-  
+  try{
+    const allCourses = await Course.find();
+    res.status(200).json(allCourses)
+  }catch(err){
+    res.status(401).json({msg: "Error occ!"})
+  }
 }
 
 const adminCreateCourse = async(req, res) =>{

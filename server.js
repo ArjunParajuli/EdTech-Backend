@@ -11,9 +11,10 @@ app.use("/admin", adminRouter);
 app.use("/user", userRouter);
 
 app.use((err, req, res, next)=>{
-    const statuscode = err.statuscode;
+    const statuscode = err.statuscode || 500;
+    // console.log(err.message)
     res.status(statuscode).json({
-        message: err.message
+        msg: err.message || "An unexpected error occurred."
     })
 })
 
