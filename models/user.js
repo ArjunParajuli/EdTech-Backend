@@ -18,6 +18,10 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Course"
     }],
+    createdCourses: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Course"
+    }]
 }, {timestamps: true})
 
 const User = mongoose.model("user", userSchema);

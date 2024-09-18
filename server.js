@@ -1,18 +1,20 @@
 import express from 'express';
 import 'dotenv/config';
-import mongoose from 'mongoose';
 import adminRouter from './routes/adminRoutes.js';
 import userRouter from './routes/userRoutes.js';
+import courseRouter from './routes/courseRoutes.js';
+import dbConnect from './db/index.js';
 
 const app = express()
 
 app.use(express.json());
 app.use("/admin", adminRouter);
 app.use("/user", userRouter);
+app.use("/course", courseRouter);
 
 app.use((err, req, res, next)=>{
     const statuscode = err.statuscode || 500;
-    // console.log(err.message)
+    console.log("In global catch! ", err.message)
     res.status(statuscode).json({
         msg: err.message || "An unexpected error occurred."
     })
@@ -21,13 +23,12 @@ app.use((err, req, res, next)=>{
 
 const startAndconnectDB = async()=>{
     try{
-        await mongoose.connect(process.env.MONGO_URI)
-        console.log("DB connected")
-        app.listen(4000, ()=>{
+        await dbConnect();
+        app.listen(process.env.PORT || 4000, ()=>{
             console.log("Server started")
         })
     }catch(err){
-        console.log("Err in DB connection" , err)
+        console.log("Err starting the server!" , err)
     }
 }
 
